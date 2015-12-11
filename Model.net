@@ -1,0 +1,212 @@
+net
+{
+    node_size = (80 40);
+    HR_Desc = "";
+    HR_OOBN_CheckConsistency = "1";
+    HR_OOBN_FitExpand = "1";
+    HR_Zoom_ZoomFactor = "100";
+    HR_Groups_GroupColors = "";
+    HR_Groups_GroupNames = "";
+    HR_Groups_UserGroupsNo = "0";
+    HR_Color_Interface = "21";
+    HR_Color_Instance = "0";
+    HR_Color_Function = "4";
+    HR_Color_Utility = "36";
+    HR_Color_Decision = "17";
+    HR_Color_ContinuousChance = "48";
+    HR_Color_DiscreteChance = "16";
+    HR_Monitor_InitSD = "2";
+    HR_Monitor_Utility_Arrange = "0";
+    HR_Monitor_Mean_Variance = "1";
+    HR_Monitor_Chance_Utility = "1";
+    HR_Monitor_InitStates = "5";
+    HR_Monitor_OpenGraph = "0";
+    HR_Monitor_GraphPrecision = "100";
+    HR_Monitor_AutoUpdGraph = "0";
+    HR_Compile_MaxMinimalSeparators = "100000";
+    HR_Compile_ApproxEpsilon = "1.0E-5";
+    HR_Compile_Approximate = "0";
+    HR_Compile_SaveToMemory = "0";
+    HR_Compile_Compress = "0";
+    HR_Compile_TriangMethod = "0";
+    HR_Propagate_AutoNormal = "1";
+    HR_Propagate_AutoSum = "1";
+    HR_Propagate_Auto = "1";
+    HR_Font_Italic = "0";
+    HR_Font_Weight = "400";
+    HR_Font_Size = "-12";
+    HR_Font_Name = "javax.swing.plaf.FontUIResource[family=Tahoma,name=Tahoma,style=plain,size=11]";
+    HR_Grid_GridShow = "0";
+    HR_Grid_GridSnap = "0";
+    HR_Grid_Y = "40";
+    HR_Grid_X = "40";
+}
+
+node Nstage
+{
+    label = "Nstage";
+    position = (687 167);
+    states = ("0" "1" "2" "3");
+    subtype = number;
+    state_values = (0 1 2 3);
+    HR_LinkMode = "[med:0][chemo3g:0]";
+}
+
+node Modality
+{
+    label = "Modality";
+    position = (274 90);
+    states = ("0" "1");
+    subtype = number;
+    state_values = (0 1);
+    HR_LinkMode = "[age:0]";
+}
+
+node chemo3g
+{
+    label = "chemo3g";
+    position = (399 338);
+    states = ("0" "1" "2");
+    subtype = number;
+    state_values = (0 1 2);
+    HR_LinkMode = "[age:0][toxesohigh2:0]";
+}
+
+node toxesohigh2
+{
+    label = "toxesohigh2";
+    position = (530 76);
+    states = ("0" "1");
+    subtype = number;
+    state_values = (0 1);
+    HR_LinkMode = "[age:0]";
+}
+
+node age
+{
+    label = "age";
+    position = (295 208);
+    states = ("0" "1" "2");
+    subtype = number;
+    state_values = (0 1 2);
+}
+
+node med
+{
+    label = "med";
+    position = (694 322);
+    states = ("0" "1" "2");
+    subtype = number;
+    state_values = (0 1 2);
+    HR_LinkMode = "[toxesohigh2:0][chemo3g:0]";
+}
+
+potential (Nstage)
+{
+    data = ( 0.296664 0.0701524 0.379099 0.254085 );
+    experience = 1250;
+}
+
+potential (Modality)
+{
+    data = ( 0.297108 0.702892 );
+    experience = 1250;
+}
+
+potential (chemo3g | Nstage med)
+{
+    data
+     = ((( 0.757982 0.0564616 0.185556 )	%  Nstage=0  med=0
+	 ( 0.384011 0.36615 0.249839 )	%  Nstage=0  med=1
+	 ( 0.409602 0.407076 0.183321 ))	%  Nstage=0  med=2
+	(( 0.688092 0.0128333 0.299075 )	%  Nstage=1  med=0
+	 ( 0.768456 0.0802827 0.151261 )	%  Nstage=1  med=1
+	 ( 0.0934533 0.531466 0.375081 ))	%  Nstage=1  med=2
+	(( 0.145794 0.153443 0.700764 )	%  Nstage=2  med=0
+	 ( 0.0847335 0.200285 0.714982 )	%  Nstage=2  med=1
+	 ( 0.125502 0.401398 0.4731 ))	%  Nstage=2  med=2
+	(( 0.149214 0.024477 0.826309 )	%  Nstage=3  med=0
+	 ( 0.0737501 0.0515066 0.874743 )	%  Nstage=3  med=1
+	 ( 0.0889411 0.384219 0.52684 )));	%  Nstage=3  med=2
+    experience
+     = (( 179.009	%  Nstage=0  med=0
+	  124.182	%  Nstage=0  med=1
+	  67.6388 )	%  Nstage=0  med=2
+	( 35.0677	%  Nstage=1  med=0
+	  26.8075	%  Nstage=1  med=1
+	  25.8153 )	%  Nstage=1  med=2
+	( 88.1119	%  Nstage=2  med=0
+	  215.976	%  Nstage=2  med=1
+	  169.785 )	%  Nstage=2  med=2
+	( 25.0122	%  Nstage=3  med=0
+	  75.2512	%  Nstage=3  med=1
+	  217.342 ));	%  Nstage=3  med=2
+}
+
+potential (toxesohigh2 | chemo3g med)
+{
+    data
+     = ((( 0.986798 0.0132022 )	%  chemo3g=0  med=0
+	 ( 0.983859 0.0161406 )	%  chemo3g=0  med=1
+	 ( 0.954251 0.0457493 ))	%  chemo3g=0  med=2
+	(( 1 3.82033E-007 )	%  chemo3g=1  med=0
+	 ( 0.950097 0.049903 )	%  chemo3g=1  med=1
+	 ( 0.880024 0.119976 ))	%  chemo3g=1  med=2
+	(( 0.962291 0.0377088 )	%  chemo3g=2  med=0
+	 ( 0.838986 0.161014 )	%  chemo3g=2  med=1
+	 ( 0.643329 0.356671 )));	%  chemo3g=2  med=2
+    experience
+     = (( 176.394	%  chemo3g=0  med=0
+	  92.1381	%  chemo3g=0  med=1
+	  70.7567 )	%  chemo3g=0  med=2
+	( 24.6895	%  chemo3g=1  med=0
+	  94.7542	%  chemo3g=1  med=1
+	  192.913 )	%  chemo3g=1  med=2
+	( 126.117	%  chemo3g=2  med=0
+	  255.325	%  chemo3g=2  med=1
+	  216.913 ));	%  chemo3g=2  med=2
+}
+
+potential (age | Modality chemo3g toxesohigh2)
+{
+    data
+     = (((( 1.54394E-008 0.383014 0.616986 )	%  Modality=0  chemo3g=0  toxesohigh2=0
+	  ( 0.480182 0.0251887 0.494629 ))	%  Modality=0  chemo3g=0  toxesohigh2=1
+	 (( 0.0358413 0.620972 0.343186 )	%  Modality=0  chemo3g=1  toxesohigh2=0
+	  ( 0.262189 0.737811 2.41453E-008 ))	%  Modality=0  chemo3g=1  toxesohigh2=1
+	 (( 0.0601483 0.66004 0.279812 )	%  Modality=0  chemo3g=2  toxesohigh2=0
+	  ( 0.0396231 0.810742 0.149635 )))	%  Modality=0  chemo3g=2  toxesohigh2=1
+	((( 0.0173018 0.240049 0.742649 )	%  Modality=1  chemo3g=0  toxesohigh2=0
+	  ( 3.37338E-007 0.223113 0.776887 ))	%  Modality=1  chemo3g=0  toxesohigh2=1
+	 (( 0.0214576 0.43982 0.538722 )	%  Modality=1  chemo3g=1  toxesohigh2=0
+	  ( 0.0823697 0.258306 0.659324 ))	%  Modality=1  chemo3g=1  toxesohigh2=1
+	 (( 0.0614897 0.628828 0.309683 )	%  Modality=1  chemo3g=2  toxesohigh2=0
+	  ( 0.123396 0.663826 0.212778 ))));	%  Modality=1  chemo3g=2  toxesohigh2=1
+    experience
+     = ((( 83.8373	%  Modality=0  chemo3g=0  toxesohigh2=0
+	   2.08254 )	%  Modality=0  chemo3g=0  toxesohigh2=1
+	 ( 118.307	%  Modality=0  chemo3g=1  toxesohigh2=0
+	   15.8276 )	%  Modality=0  chemo3g=1  toxesohigh2=1
+	 ( 121.434	%  Modality=0  chemo3g=2  toxesohigh2=0
+	   29.8964 ))	%  Modality=0  chemo3g=2  toxesohigh2=1
+	(( 248.398	%  Modality=1  chemo3g=0  toxesohigh2=0
+	   4.97048 )	%  Modality=1  chemo3g=0  toxesohigh2=1
+	 ( 166.176	%  Modality=1  chemo3g=1  toxesohigh2=0
+	   12.0458 )	%  Modality=1  chemo3g=1  toxesohigh2=1
+	 ( 353.688	%  Modality=1  chemo3g=2  toxesohigh2=0
+	   93.3367 )));	%  Modality=1  chemo3g=2  toxesohigh2=1
+}
+
+potential (med | Nstage)
+{
+    data
+     = (( 0.482725 0.334877 0.182398 )	%  Nstage=0
+	( 0.399903 0.305706 0.294391 )	%  Nstage=1
+	( 0.18594 0.455768 0.358293 )	%  Nstage=2
+	( 0.0787525 0.236933 0.684315 ));	%  Nstage=3
+    experience
+     = ( 370.83	%  Nstage=0
+	 87.6905	%  Nstage=1
+	 473.874	%  Nstage=2
+	 317.606 );	%  Nstage=3
+}
